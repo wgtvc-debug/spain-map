@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <!-- CSSを外部ファイルから読み込む。3ファイルは同じフォルダに置いてください。 -->
+  <link rel="stylesheet" href="style.css">
+  <!-- defer を付けると、HTMLの解析が終わってからJavaScriptを実行します。 -->
+  <script src="script.js" defer></script>
+
+  <!-- このファイルはページの内容と構造を担当します。デザインはstyle.css、操作はscript.jsです。 -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101e30">
+  <meta name="description" content="スペインの17自治州と2自治都市の観光情報を地図から探せるインタラクティブ旅行ガイド。">
+  <title>ESPAÑA ATLAS | 地図で巡るスペイン</title>
+  
+
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="España Atlas ホーム"><span class="brand-mark">✺</span><span>ESPAÑA <em>ATLAS</em></span></a>
+    <nav class="nav" aria-label="ページ内ナビゲーション"><a href="#explore">MAP</a><a href="#highlights">HIGHLIGHTS</a><a href="#transport">TRANSPORT</a></nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false"><span id="theme-icon">☾</span> <span id="theme-label">ダークモード</span></button>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-orb" aria-hidden="true"></div><div class="hero-lines" aria-hidden="true"></div>
+      <div class="hero-inner"><p class="kicker"><span class="kicker-line"></span> THE SPANISH TRAVEL JOURNAL</p>
+        <h1 id="hero-title">まだ知らない、<br><span>スペイン</span>に出会う。</h1>
+        <p class="hero-description">地中海の青、歴史ある街並み、山岳の風景。<br>地図の地域に触れて、次の旅先を見つけよう。</p>
+        <a class="hero-cta" href="#explore">地図から探す <span aria-hidden="true">↘</span></a>
+        <div class="hero-meta"><span>17 AUTONOMOUS COMMUNITIES</span><span class="meta-dot"></span><span>2 AUTONOMOUS CITIES</span></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true"><div class="sun"></div><div class="horizon horizon-back"></div><div class="horizon horizon-front"></div><span class="visual-caption">MEDITERRANEAN STORIES / 01</span></div>
+    </section>
+    <section id="explore" class="explore wrap" aria-labelledby="explore-title">
+      <div class="section-heading"><div><span class="section-index">01 / EXPLORE</span><h2 id="explore-title">地図で、旅先を選ぼう。</h2><p>4つの観光カテゴリーと交通検索を切り替えて、旅先を発見しよう。</p></div><span class="section-deco" aria-hidden="true">✳</span></div>
+      <div class="topic-filter" aria-label="地図のカテゴリー切り替え">
+ <div class="topic-heading">EXPLORE BY INTEREST / 興味から探す</div>
+ <div class="topic-buttons" role="group" aria-label="観光ジャンル">
+  <button type="button" class="topic-btn active" data-topic="nature" aria-pressed="true">🌿 自然</button>
+  <button type="button" class="topic-btn" data-topic="culture" aria-pressed="false">🏛️ 文化・建築</button>
+  <button type="button" class="topic-btn" data-topic="football" aria-pressed="false">⚽ サッカー</button>
+  <button type="button" class="topic-btn" data-topic="food" aria-pressed="false">🍽️ グルメ</button>
+  <button type="button" class="topic-btn" id="transport-tab" aria-pressed="false">🚆 交通・ルート</button>
+ </div>
+ <div class="topic-note" id="topic-summary" role="status">海や山、自然の景色を巡る：地図から地域を選択してください。</div>
+</div>
+      <div class="explorer-grid">
+        <div class="map-shell">
+          <div class="map-toolbar"><span><span class="live-dot"></span> INTERACTIVE MAP</span><div class="map-tools"><span id="map-mode-status">オフライン対応の概略地図</span><button id="map-mode-toggle" type="button" hidden aria-pressed="true" title="地図の表示方法を切り替える">概略図に切替</button></div></div>
+          <div class="map-stage" id="map-stage">
+            <svg class="spain-map" viewBox="0 0 900 600" role="img" aria-label="スペインの17自治州と2自治都市を選択できる地図">
+              <defs><pattern id="ocean-pattern" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M0 34 L34 0" stroke="currentColor" stroke-opacity=".07" stroke-width="1" /></pattern></defs>
+              <rect width="900" height="600" class="map-water" rx="6"/>
+              <rect width="900" height="600" fill="url(#ocean-pattern)" rx="6"/>
+              <g class="neighbor-land neighbor-fallback" aria-label="周辺国の参考表示">
+<path d="M 0 157 L 112 154 L 117 183 L 137 205 L 126 251 L 153 291 L 163 331 L 170 370 L 193 391 L 213 395 L 235 394 L 237 449 L 210 473 L 160 466 L 144 430 L 104 407 L 75 353 L 35 327 L 0 320 Z"/>
+<path d="M 157 0 L 900 0 L 900 195 L 860 188 L 820 169 L 777 154 L 741 173 L 722 210 L 699 180 L 650 154 L 592 151 L 569 169 L 538 159 L 516 134 L 493 152 L 473 124 L 439 117 L 413 139 L 393 114 L 360 111 L 344 127 L 324 100 L 304 109 L 265 110 L 238 127 L 207 104 L 174 100 L 159 119 L 141 128 Z"/>
+<path d="M 0 599 L 0 573 L 75 573 L 107 564 L 154 572 L 201 573 L 252 575 L 315 571 L 373 555 L 421 543 L 444 544 L 498 538 L 558 542 L 617 551 L 665 555 L 703 580 L 735 599 Z"/>
+<text x="72" y="290" class="small">PORTUGAL</text>
+<text x="540" y="57">FRANCE</text>
+<text x="438" y="589" class="small">MOROCCO</text>
+</g>
+<g class="neighbor-land neighbor-accurate" aria-label="周辺国の概略表示">
+<path d="M 103.4 190.2 L 142.3 190.6 L 147.2 182.5 L 169.0 192.9 L 222.5 191.9 L 232.2 205.0 L 246.8 189.2 L 266.2 205.0 L 249.2 229.8 L 234.7 261.2 L 237.1 295.0 L 227.4 308.5 L 203.1 317.5 L 205.5 349.0 L 222.5 403.0 L 203.1 403.0 L 173.9 408.4 L 135.0 412.0 L 131.1 362.5 L 115.6 337.8 L 110.7 304.0 L 127.7 254.5 L 137.4 209.5 Z"/>
+<path d="M 480.1 126.2 L 499.5 139.8 L 533.5 144.2 L 591.9 155.5 L 635.6 160.0 L 686.6 166.7 L 723.1 168.1 L 727.9 137.5 L 810.6 137.5 L 883.5 115.0 L 932.1 110.5 L 985.5 97.0 L 985.5 7.0 L 859.2 -83.0 L 470.4 -83.0 L 324.6 -2.0 L 334.3 97.0 L 470.4 128.5 Z"/>
+<path d="M 276.0 461.5 L 310.0 461.5 L 329.4 479.5 L 421.8 488.5 L 450.9 497.5 L 475.2 502.0 L 519.0 515.5 L 616.2 592.0 L 616.2 682.0 L 33.0 682.0 L 33.0 515.5 L 139.9 466.0 Z"/>
+<text x="60" y="240" class="small">PORTUGAL</text><text x="580" y="68">FRANCE</text><text x="440" y="588" class="small">MOROCCO</text></g>
+              <g class="map-geography fallback-geography" stroke-linejoin="round">
+                <path data-id="galicia" d="M120 158 L141 128 159 119 174 100 207 104 238 127 227 172 191 202 151 192 131 178 Z"/>
+                <path data-id="asturias" d="M238 127 L265 110 304 109 324 100 344 127 328 156 269 160 227 172 Z"/>
+                <path data-id="cantabria" d="M344 127 L360 111 393 114 413 139 404 165 348 168 328 156 Z"/>
+                <path data-id="paisvasco" d="M413 139 L439 117 473 124 493 152 475 176 419 167 404 165 Z"/>
+                <path data-id="navarra" d="M493 152 L516 134 538 159 530 195 500 211 475 176 Z"/>
+                <path data-id="larioja" d="M419 167 L475 176 500 211 463 216 411 206 Z"/>
+                <path data-id="castillayleon" d="M191 202 L227 172 269 160 328 156 348 168 404 165 419 167 411 206 463 216 474 256 438 289 402 284 386 301 354 284 319 297 253 282 211 259 Z"/>
+                <path data-id="aragon" d="M500 211 L530 195 538 159 569 169 590 189 598 231 622 250 616 298 572 318 540 300 510 285 474 256 463 216 Z"/>
+                <path data-id="cataluna" d="M569 169 L592 151 650 154 699 180 722 210 703 232 677 251 643 269 622 250 598 231 590 189 Z"/>
+                <path data-id="comunitatvalenciana" d="M643 269 L677 251 703 232 707 264 719 287 705 311 698 335 688 375 671 408 638 392 623 360 616 298 622 250 Z"/>
+                <path data-id="madrid" d="M386 301 L402 284 438 289 452 310 435 334 409 324 Z"/>
+                <path data-id="castillalamancha" d="M438 289 L474 256 510 285 540 300 572 318 616 298 623 360 638 392 608 420 546 440 490 416 449 412 409 373 405 340 409 324 435 334 452 310 Z"/>
+                <path data-id="extremadura" d="M211 259 L253 282 319 297 354 284 386 301 409 324 405 340 409 373 449 412 424 443 350 450 320 425 270 433 235 394 225 335 Z"/>
+                <path data-id="andalucia" d="M235 394 L270 433 320 425 350 450 424 443 449 412 490 416 546 440 608 420 634 410 634 461 611 472 570 485 529 490 486 479 469 492 431 488 394 506 341 511 296 498 257 476 237 449 Z"/>
+                <path data-id="murcia" d="M638 392 L671 408 660 450 634 461 608 420 Z"/>
+                <path data-id="baleares" d="M761 298 Q786 284 805 297 L817 310 Q797 326 777 321 Z M831 258 Q839 253 850 256 L852 267 838 274 Z M802 362 Q812 357 822 361 L825 369 809 374 Z"/>
+                <path data-id="canarias" d="M122 527 Q137 519 155 528 L155 537 130 542 Z M171 547 Q178 537 190 544 L194 554 177 560 Z M213 523 Q225 516 235 524 L229 535 214 537 Z M255 547 Q263 540 270 547 L274 557 259 561 Z"/>
+                <circle data-id="ceuta" cx="439" cy="531" r="7"/>
+                <circle data-id="melilla" cx="584" cy="535" r="7"/>
+              </g>
+              <g class="map-labels fallback-labels" aria-hidden="true"><text x="161" y="150">GALICIA</text><text x="282" y="130">ASTURIAS</text><text x="373" y="144">CANTABRIA</text><text x="455" y="142">BASQUE</text><text x="508" y="180">NAVARRA</text><text x="446" y="199">RIOJA</text><text x="320" y="225">CASTILLA Y LEÓN</text><text x="549" y="243">ARAGÓN</text><text x="646" y="207">CATALUÑA</text><text x="682" y="326">VALENCIA</text><text x="421" y="313">MADRID</text><text x="521" y="354">CASTILLA-LA MANCHA</text><text x="310" y="359">EXTREMADURA</text><text x="440" y="466">ANDALUCÍA</text><text x="639" y="440">MURCIA</text><text x="782" y="343">BALEARES</text><text x="191" y="585">CANARIAS</text><text x="433" y="550">CEUTA</text><text x="582" y="553">MELILLA</text></g>
+              <g id="topic-pins" aria-label="カテゴリーごとの注目スポット"></g>
+              <g id="transport-lines" pointer-events="none" aria-label="選択した都市間を結ぶ参考ルート"></g>
+              <text x="780" y="410" class="sea-label">MAR MEDITERRÁNEO</text><text x="124" y="470" class="sea-label">ATLANTIC OCEAN</text>
+              <rect x="90" y="505" width="202" height="70" rx="15" class="inset-border" pointer-events="none"/>
+            </svg>
+            <div id="map-tooltip" class="map-tooltip" role="status" hidden></div>
+            <div class="map-compass" aria-hidden="true">N ↑</div>
+          </div>
+          <div class="map-bottom"><span id="topic-legend">🌿 自然のおすすめ地点</span><span class="map-disclaimer" id="map-disclaimer">※ 周辺国は背景用の概略形状です</span></div>
+        </div>
+        <aside class="details" aria-labelledby="details-title">
+          <div class="details-top"><span class="eyebrow">DESTINATION NOTES</span><span id="region-count">01 / 19</span></div>
+          <div id="detail-visual" class="detail-visual"><span id="detail-icon" aria-hidden="true">✦</span><span id="detail-category">CULTURE & CITY</span></div>
+          <div class="details-body"><span class="label-accent" id="detail-english">CATALONIA / ESPAÑA</span><h3 id="details-title">カタルーニャ州</h3><p id="detail-description">ガウディ建築と地中海の景色を楽しめる、文化と海が近い地域。</p><div class="detail-divider"></div><p class="detail-subheading">おすすめスポット</p><div id="detail-spots" class="spot-list"></div><div class="detail-footer"><span id="detail-theme">街歩き・建築・ビーチ</span><span class="detail-star" aria-hidden="true">✳</span></div></div>
+        </aside>
+      </div>
+      <div class="region-picker"><div class="region-picker-heading"><div><span class="eyebrow">CHOOSE YOUR REGION</span><h3>地域一覧からも探せます</h3></div><label class="search-control"><span aria-hidden="true">⌕</span><input type="search" id="region-search" placeholder="地域名・都市名で検索" autocomplete="off" aria-label="地域名や都市名で検索"></label></div><div id="region-list" class="region-list" aria-label="スペインの地域一覧"></div><p id="search-empty" class="search-empty" hidden>該当する地域がありません。検索語を変えてみてください。</p></div>
+      <p class="accurate-map-link">詳細な自治州境界のデータはオンラインで自動読み込みします。<a href="https://github.com/codeforgermany/click_that_hood" target="_blank" rel="noopener noreferrer">地理データの出典</a></p>
+    </section>
+
+    <section id="transport" class="transport wrap" aria-labelledby="transport-heading">
+      <div class="section-heading"><div><span class="section-index">02 / GETTING AROUND</span><h2 id="transport-heading">スペインを、もっと自由に移動。</h2><p>都市間の移動と、市内観光スポットまでの行き方を調べられます。</p></div><span class="section-deco" aria-hidden="true">↗</span></div>
+      <div class="transport-shell">
+        <div class="transport-switch" role="group" aria-label="交通検索の種類">
+          <button id="transport-intercity-tab" class="transport-switch-btn active" type="button" aria-pressed="true">🚄 都市間を移動</button>
+          <button id="transport-local-tab" class="transport-switch-btn" type="button" aria-pressed="false">🚇 都市内・観光地へ</button>
+        </div>
+        <div id="intercity-panel">
+          <div class="transport-controls">
+            <label>出発地<select id="trip-from" aria-label="都市間の出発地"></select></label>
+            <button id="trip-swap" type="button" class="transport-swap" title="出発地と目的地を入れ替える">⇄</button>
+            <label>目的地<select id="trip-to" aria-label="都市間の目的地"></select></label>
+          </div>
+          <div class="transport-title"><strong id="trip-heading">バルセロナ → マドリード</strong><span class="transport-hint">地図に参考ルートを表示中</span></div>
+          <div id="trip-options" class="transport-options" aria-live="polite"></div>
+          <div class="transport-links"><a id="intercity-maps-link" href="#" target="_blank" rel="noopener noreferrer">Googleマップで経路を調べる ↗</a><a href="https://www.renfe.com/es/es.html" target="_blank" rel="noopener noreferrer">Renfe（鉄道公式）↗</a><a href="https://www.spain.info/en/discover-spain/main-sea-connections-spain/" target="_blank" rel="noopener noreferrer">船の交通案内 ↗</a></div>
+        </div>
+        <div id="local-panel" hidden>
+          <div class="transport-controls local-controls"><label>都市<select id="local-city" aria-label="都市内移動の都市"></select></label><label>出発地点<select id="local-from" aria-label="市内の出発地点"></select></label><label>観光スポット<select id="local-to" aria-label="市内の目的地"></select></label></div>
+          <div class="transport-title"><strong id="local-heading"></strong><span class="transport-hint">公共交通・徒歩を比較</span></div>
+          <div class="transport-options"><article class="transport-option"><span class="transport-symbol">🚇</span><div><b>公共交通</b><p>地下鉄・バスなどの乗換案内を確認</p></div><a id="local-transit-link" target="_blank" rel="noopener noreferrer">経路を見る ↗</a></article><article class="transport-option"><span class="transport-symbol">🚶</span><div><b>徒歩</b><p>徒歩ルートと所要時間を確認</p></div><a id="local-walk-link" target="_blank" rel="noopener noreferrer">経路を見る ↗</a></article><article class="transport-option"><span class="transport-symbol">🚕</span><div><b>車・タクシー</b><p>道路経路を確認（交通状況で変動）</p></div><a id="local-drive-link" target="_blank" rel="noopener noreferrer">経路を見る ↗</a></article></div>
+          <div class="transport-links" id="local-official-links"></div>
+        </div>
+        <p class="transport-disclaimer">※ 地図上の都市間ルート線は位置関係を示す模式線です。実際の線路・航路ではありません。経路・運行日・所要時間・運賃は日程により異なるため、リンク先で最新情報を確認してください。サイト内でリアルタイムの空席・運賃は取得していません。</p>
+      </div>
+    </section>
+    <section id="highlights" class="highlights"><div class="wrap"><div class="section-heading"><div><span class="section-index">03 / INSPIRATION</span><h2>スペインを旅する、4つの入口。</h2></div></div><div class="highlight-grid">
+      <button class="highlight-card card-barcelona" type="button" data-goto="cataluna"><span class="highlight-num">01 / ARCHITECTURE</span><span class="highlight-content"><strong>Barcelona</strong><small>芸術と地中海に出会う街</small></span><span class="highlight-arrow">↗</span></button>
+      <button class="highlight-card card-mallorca" type="button" data-goto="baleares"><span class="highlight-num">02 / ISLAND LIFE</span><span class="highlight-content"><strong>Mallorca</strong><small>透明な海と小さな入り江</small></span><span class="highlight-arrow">↗</span></button>
+      <button class="highlight-card card-andalusia" type="button" data-goto="andalucia"><span class="highlight-num">03 / HERITAGE</span><span class="highlight-content"><strong>Andalucía</strong><small>宮殿と白い村を巡る</small></span><span class="highlight-arrow">↗</span></button>
+      <button class="highlight-card card-madrid" type="button" data-goto="madrid"><span class="highlight-num">04 / CAPITAL CITY</span><span class="highlight-content"><strong>Madrid</strong><small>美術館と街角のにぎわい</small></span><span class="highlight-arrow">↗</span></button>
+    </div></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><a href="#top" class="brand"><span class="brand-mark">✺</span><span>ESPAÑA <em>ATLAS</em></span></a><span>MADE TO EXPLORE SPAIN — 地図で広がる旅のアイデア。</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+</body>
+</html>
